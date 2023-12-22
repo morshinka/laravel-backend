@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
+use App\Models\Category;
+use Illuminate\Http\Request;
+
+class CategoryController extends Controller
+{
+
+    public function __construct()
+    {
+        // $this->middleware('auth:sanctum');
+        // $this->authorizeResource(Category::class, 'category');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        return CategoryResource::collection(Category::all());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $category = Category::create([
+            ...$request->validate([
+                'name' => 'required|max:20|min:3',
+                'description' => 'required',
+            ])
+        ]);
+
+        return $category;
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Category $category)
+    {
+        $category->load('products');
+        return $category;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Category $category)
+    {
+        $category->update(
+            $request->validate([
+                'name' => 'required|min:3|max:20',
+                'description' => 'required',
+            ])
+        );
+
+        return $category;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Category $category)
+    {
+        $category->delete();
+
+        return response(status: 204);
+    }
+}
