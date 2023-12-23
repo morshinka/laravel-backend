@@ -12,10 +12,12 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // ProductResource used just simple what need for GET request
-        return ProductResource::collection(Product::paginate(10));
+        $categoryId = $request->query('category_id');
+        $userId = $request->query('user_id');
+        $product = Product::where('category_id', 'LIKE', '%' . $categoryId . '%')->where('user_id', 'LIKE', '%' . $userId . '%')->paginate()->load('category', 'user');
+        return ProductResource::collection($product);
     }
 
     /**

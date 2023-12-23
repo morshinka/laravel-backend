@@ -24,8 +24,8 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopeCategoryId(Builder $query, string $categoryId) : Builder
+    public function scopeCategoryId(Builder $query, string $categoryId, string $userId): Builder
     {
-        return $query->where('category_id', 'LIKE', '%' . $categoryId . '%');
+        return $query->where('category_id', 'LIKE', '%' . $categoryId . '%')->where('user_id', 'LIKE', '%' . $userId . '%');
     }
 }
