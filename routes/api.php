@@ -35,7 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::apiResource('categories', CategoryController::class);
-Route::apiResource('product', ProductController::class);
+Route::apiResource('product', ProductController::class)->middleware('auth:sanctum');
 Route::apiResource('banners', BannerController::class);
 
 // route untuk upload image
