@@ -49,3 +49,5 @@ Route::post('/orders', [OrderController::class, 'order'])->middleware('auth:sanc
 
 // route untuk callback midtrans
 Route::post('midtrans/notification/handling', [CallbackController::class, 'callback']);
+
+Route::post('fcm-token', [AuthController::class, 'updateFcmToken'])->middleware('auth:sanctum');
